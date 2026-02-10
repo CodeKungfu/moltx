@@ -1,18 +1,18 @@
 /**
- * Message normalization utilities for chat rendering.
+ * 用于聊天渲染的消息标准化工具。
  */
 
 import type { NormalizedMessage, MessageContentItem } from "../types/chat-types.ts";
 
 /**
- * Normalize a raw message object into a consistent structure.
+ * 将原始消息对象标准化为一致的结构。
  */
 export function normalizeMessage(message: unknown): NormalizedMessage {
   const m = message as Record<string, unknown>;
   let role = typeof m.role === "string" ? m.role : "unknown";
 
-  // Detect tool messages by common gateway shapes.
-  // Some tool events come through as assistant role with tool_* items in the content array.
+  // 通过常见的网关形状检测工具消息。
+  // 一些工具事件作为 assistant 角色出现，内容数组中包含 tool_* 项。
   const hasToolId = typeof m.toolCallId === "string" || typeof m.tool_call_id === "string";
 
   const contentRaw = m.content;
@@ -31,7 +31,7 @@ export function normalizeMessage(message: unknown): NormalizedMessage {
     role = "toolResult";
   }
 
-  // Extract content
+  // 提取内容
   let content: MessageContentItem[] = [];
 
   if (typeof m.content === "string") {
@@ -54,11 +54,11 @@ export function normalizeMessage(message: unknown): NormalizedMessage {
 }
 
 /**
- * Normalize role for grouping purposes.
+ * 标准化角色以便分组。
  */
 export function normalizeRoleForGrouping(role: string): string {
   const lower = role.toLowerCase();
-  // Preserve original casing when it's already a core role.
+  // 当已经是核心角色时保留原始大小写。
   if (role === "user" || role === "User") {
     return role;
   }
@@ -68,7 +68,7 @@ export function normalizeRoleForGrouping(role: string): string {
   if (role === "system") {
     return "system";
   }
-  // Keep tool-related roles distinct so the UI can style/toggle them.
+  // 保持工具相关角色独特，以便 UI 可以设置样式/切换它们。
   if (
     lower === "toolresult" ||
     lower === "tool_result" ||
@@ -81,7 +81,7 @@ export function normalizeRoleForGrouping(role: string): string {
 }
 
 /**
- * Check if a message is a tool result message based on its role.
+ * 根据角色检查消息是否为工具结果消息。
  */
 export function isToolResultMessage(message: unknown): boolean {
   const m = message as Record<string, unknown>;

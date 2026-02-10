@@ -74,12 +74,12 @@ export async function sendChatMessage(
 
   const now = Date.now();
 
-  // Build user message content blocks
+  // 构建用户消息内容块
   const contentBlocks: Array<{ type: string; text?: string; source?: unknown }> = [];
   if (msg) {
     contentBlocks.push({ type: "text", text: msg });
   }
-  // Add image previews to the message for display
+  // 将图片预览添加到消息中以进行显示
   if (hasAttachments) {
     for (const att of attachments) {
       contentBlocks.push({
@@ -105,7 +105,7 @@ export async function sendChatMessage(
   state.chatStream = "";
   state.chatStreamStartedAt = now;
 
-  // Convert attachments to API format
+  // 将附件转换为 API 格式
   const apiAttachments = hasAttachments
     ? attachments
         .map((att) => {
@@ -176,8 +176,8 @@ export function handleChatEvent(state: ChatState, payload?: ChatEventPayload) {
     return null;
   }
 
-  // Final from another run (e.g. sub-agent announce): refresh history to show new message.
-  // See https://github.com/openclaw/openclaw/issues/1909
+  // 来自另一次运行的最终结果（例如子代理公告）：刷新历史记录以显示新消息。
+  // 参见 https://github.com/openclaw/openclaw/issues/1909
   if (payload.runId && state.chatRunId && payload.runId !== state.chatRunId) {
     if (payload.state === "final") {
       return "final";

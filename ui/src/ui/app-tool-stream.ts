@@ -178,7 +178,7 @@ export function handleCompactionEvent(host: CompactionHost, payload: AgentEventP
   const data = payload.data ?? {};
   const phase = typeof data.phase === "string" ? data.phase : "";
 
-  // Clear any existing timer
+  // 清除任何现有的定时器
   if (host.compactionClearTimer != null) {
     window.clearTimeout(host.compactionClearTimer);
     host.compactionClearTimer = null;
@@ -196,7 +196,7 @@ export function handleCompactionEvent(host: CompactionHost, payload: AgentEventP
       startedAt: host.compactionStatus?.startedAt ?? null,
       completedAt: Date.now(),
     };
-    // Auto-clear the toast after duration
+    // 在持续时间后自动清除 toast
     host.compactionClearTimer = window.setTimeout(() => {
       host.compactionStatus = null;
       host.compactionClearTimer = null;
@@ -209,7 +209,7 @@ export function handleAgentEvent(host: ToolStreamHost, payload?: AgentEventPaylo
     return;
   }
 
-  // Handle compaction events
+  // 处理压缩事件
   if (payload.stream === "compaction") {
     handleCompactionEvent(host as CompactionHost, payload);
     return;
@@ -222,7 +222,7 @@ export function handleAgentEvent(host: ToolStreamHost, payload?: AgentEventPaylo
   if (sessionKey && sessionKey !== host.sessionKey) {
     return;
   }
-  // Fallback: only accept session-less events for the active run.
+  // 回退：仅接受活动运行的无会话事件。
   if (!sessionKey && host.chatRunId && payload.runId !== host.chatRunId) {
     return;
   }

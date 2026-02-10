@@ -77,7 +77,7 @@ export async function loadSessionTimeSeries(state: UsageState, sessionKey: strin
       state.usageTimeSeries = res as SessionUsageTimeSeries;
     }
   } catch {
-    // Silently fail - time series is optional
+    // 静默失败 - 时间序列是可选的
     state.usageTimeSeries = null;
   } finally {
     state.usageTimeSeriesLoading = false;
@@ -99,7 +99,7 @@ export async function loadSessionLogs(state: UsageState, sessionKey: string) {
       state.usageSessionLogs = (res as { logs: SessionLogEntry[] }).logs;
     }
   } catch {
-    // Silently fail - logs are optional
+    // 静默失败 - 日志是可选的
     state.usageSessionLogs = null;
   } finally {
     state.usageSessionLogsLoading = false;

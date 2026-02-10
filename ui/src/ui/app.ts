@@ -137,7 +137,7 @@ export class OpenClawApp extends LitElement {
   @state() chatQueue: ChatQueueItem[] = [];
   @state() chatAttachments: ChatAttachment[] = [];
   @state() chatManualRefreshInFlight = false;
-  // Sidebar state for tool output viewing
+  // 用于查看工具输出的侧边栏状态
   @state() sidebarOpen = false;
   @state() sidebarContent: string | null = null;
   @state() sidebarError: string | null = null;
@@ -252,9 +252,9 @@ export class OpenClawApp extends LitElement {
   @state() usageSessionLogs: import("./views/usage.js").SessionLogEntry[] | null = null;
   @state() usageSessionLogsLoading = false;
   @state() usageSessionLogsExpanded = false;
-  // Applied query (used to filter the already-loaded sessions list client-side).
+  // 应用查询（用于在客户端过滤已加载的会话列表）。
   @state() usageQuery = "";
-  // Draft query text (updates immediately as the user types; applied via debounce or "Search").
+  // 草稿查询文本（在用户输入时立即更新；通过去抖动或“搜索”应用）。
   @state() usageQueryDraft = "";
   @state() usageSessionSort: "tokens" | "cost" | "recent" | "messages" | "errors" = "recent";
   @state() usageSessionSortDir: "desc" | "asc" = "desc";
@@ -278,7 +278,7 @@ export class OpenClawApp extends LitElement {
   @state() usageLogFilterHasTools = false;
   @state() usageLogFilterQuery = "";
 
-  // Non-reactive (don’t trigger renders just for timer bookkeeping).
+  // 非响应式（不要仅为了定时器记账而触发渲染）。
   usageQueryDebounceTimer: number | null = null;
 
   @state() cronLoading = false;
@@ -532,7 +532,7 @@ export class OpenClawApp extends LitElement {
     this.pendingGatewayUrl = null;
   }
 
-  // Sidebar handlers for tool output viewing
+  // 用于查看工具输出的侧边栏处理程序
   handleOpenSidebar(content: string) {
     if (this.sidebarCloseTimer != null) {
       window.clearTimeout(this.sidebarCloseTimer);
@@ -545,7 +545,7 @@ export class OpenClawApp extends LitElement {
 
   handleCloseSidebar() {
     this.sidebarOpen = false;
-    // Clear content after transition
+    // 过渡后清除内容
     if (this.sidebarCloseTimer != null) {
       window.clearTimeout(this.sidebarCloseTimer);
     }

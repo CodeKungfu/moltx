@@ -170,7 +170,7 @@ export async function handleSendChat(
   const attachmentsToSend = messageOverride == null ? attachments : [];
   const hasAttachments = attachmentsToSend.length > 0;
 
-  // Allow sending with just attachments (no message text required)
+  // 允许仅发送附件（不需要消息文本）
   if (!message && !hasAttachments) {
     return;
   }
@@ -183,7 +183,7 @@ export async function handleSendChat(
   const refreshSessions = isChatResetCommand(message);
   if (messageOverride == null) {
     host.chatMessage = "";
-    // Clear attachments when sending
+    // 发送时清除附件
     host.chatAttachments = [];
   }
 

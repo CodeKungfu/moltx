@@ -50,7 +50,7 @@ export function renderChatControls(state: AppViewState) {
   const disableFocusToggle = state.onboarding;
   const showThinking = state.onboarding ? false : state.settings.chatShowThinking;
   const focusActive = state.onboarding ? true : state.settings.chatFocusMode;
-  // Refresh icon
+  // 刷新图标
   const refreshIcon = html`
     <svg
       width="18"
@@ -242,7 +242,7 @@ function resolveSessionOptions(
   const resolvedMain = mainSessionKey && sessions?.sessions?.find((s) => s.key === mainSessionKey);
   const resolvedCurrent = sessions?.sessions?.find((s) => s.key === sessionKey);
 
-  // Add main session key first
+  // 首先添加主会话密钥
   if (mainSessionKey) {
     seen.add(mainSessionKey);
     options.push({
@@ -251,7 +251,7 @@ function resolveSessionOptions(
     });
   }
 
-  // Add current session key next
+  // 接下来添加当前会话密钥
   if (!seen.has(sessionKey)) {
     seen.add(sessionKey);
     options.push({
@@ -260,7 +260,7 @@ function resolveSessionOptions(
     });
   }
 
-  // Add sessions from the result
+  // 添加结果中的会话
   if (sessions?.sessions) {
     for (const s of sessions.sessions) {
       if (!seen.has(s.key)) {

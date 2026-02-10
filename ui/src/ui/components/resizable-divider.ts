@@ -2,8 +2,8 @@ import { LitElement, css, nothing } from "lit";
 import { customElement, property } from "lit/decorators.js";
 
 /**
- * A draggable divider for resizable split views.
- * Dispatches 'resize' events with { splitRatio: number } detail.
+ * 用于可调整大小的拆分视图的可拖动分隔线。
+ * 调度带有 { splitRatio: number } 详情的 'resize' 事件。
  */
 @customElement("resizable-divider")
 export class ResizableDivider extends LitElement {

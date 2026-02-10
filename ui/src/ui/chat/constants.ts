@@ -1,12 +1,12 @@
 /**
- * Chat-related constants for the UI layer.
+ * UI 层的聊天相关常量。
  */
 
-/** Character threshold for showing tool output inline vs collapsed */
+/** 工具输出内联显示与折叠显示的字符阈值 */
 export const TOOL_INLINE_THRESHOLD = 80;
 
-/** Maximum lines to show in collapsed preview */
+/** 折叠预览中显示的最大行数 */
 export const PREVIEW_MAX_LINES = 2;
 
-/** Maximum characters to show in collapsed preview */
+/** 折叠预览中显示的最大字符数 */
 export const PREVIEW_MAX_CHARS = 100;

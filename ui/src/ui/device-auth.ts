@@ -57,7 +57,7 @@ function writeStore(store: DeviceAuthStore) {
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   } catch {
-    // best-effort
+    // 尽力而为
   }
 }
 

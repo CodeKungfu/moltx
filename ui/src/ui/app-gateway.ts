@@ -134,8 +134,8 @@ export function connectGateway(host: GatewayHost) {
       host.lastError = null;
       host.hello = hello;
       applySnapshot(host, hello);
-      // Reset orphaned chat run state from before disconnect.
-      // Any in-flight run's final event was lost during the disconnect window.
+      // 重置断开连接前的孤立聊天运行状态。
+      // 任何正在进行的运行的最终事件都在断开连接期间丢失了。
       host.chatRunId = null;
       (host as unknown as { chatStream: string | null }).chatStream = null;
       (host as unknown as { chatStreamStartedAt: number | null }).chatStreamStartedAt = null;
@@ -148,7 +148,7 @@ export function connectGateway(host: GatewayHost) {
     },
     onClose: ({ code, reason }) => {
       host.connected = false;
-      // Code 1012 = Service Restart (expected during config saves, don't show as error)
+      // 代码 1012 = 服务重启（在配置保存期间预期发生，不显示为错误）
       if (code !== 1012) {
         host.lastError = `disconnected (${code}): ${reason || "no reason"}`;
       }

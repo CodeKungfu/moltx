@@ -29,6 +29,6 @@ export async function loadAssistantIdentity(
     state.assistantAvatar = normalized.avatar;
     state.assistantAgentId = normalized.agentId ?? null;
   } catch {
-    // Ignore errors; keep last known identity.
+    // 忽略错误；保留最后已知的身份。
   }
 }

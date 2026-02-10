@@ -1,4 +1,4 @@
-/** Distance (px) from the bottom within which we consider the user "near bottom". */
+/** 我们认为用户“接近底部”的距离（px）。 */
 const NEAR_BOTTOM_THRESHOLD = 450;
 
 type ScrollHost = {
@@ -37,7 +37,7 @@ export function scheduleChatScroll(host: ScrollHost, force = false, smooth = fal
     }
     return (document.scrollingElement ?? document.documentElement) as HTMLElement | null;
   };
-  // Wait for Lit render to complete, then scroll
+  // 等待 Lit 渲染完成，然后滚动
   void host.updateComplete.then(() => {
     host.chatScrollFrame = requestAnimationFrame(() => {
       host.chatScrollFrame = null;
@@ -47,14 +47,14 @@ export function scheduleChatScroll(host: ScrollHost, force = false, smooth = fal
       }
       const distanceFromBottom = target.scrollHeight - target.scrollTop - target.clientHeight;
 
-      // force=true only overrides when we haven't auto-scrolled yet (initial load).
-      // After initial load, respect the user's scroll position.
+      // force=true 仅在尚未自动滚动时（初始加载）覆盖。
+      // 初始加载后，尊重用户的滚动位置。
       const effectiveForce = force && !host.chatHasAutoScrolled;
       const shouldStick =
         effectiveForce || host.chatUserNearBottom || distanceFromBottom < NEAR_BOTTOM_THRESHOLD;
 
       if (!shouldStick) {
-        // User is scrolled up — flag that new content arrived below.
+        // 用户已向上滚动 — 标记下方有新内容到达。
         host.chatNewMessagesBelow = true;
         return;
       }
@@ -126,7 +126,7 @@ export function handleChatScroll(host: ScrollHost, event: Event) {
   }
   const distanceFromBottom = container.scrollHeight - container.scrollTop - container.clientHeight;
   host.chatUserNearBottom = distanceFromBottom < NEAR_BOTTOM_THRESHOLD;
-  // Clear the "new messages below" indicator when user scrolls back to bottom.
+  // 当用户滚回底部时清除“下方有新消息”指示器。
   if (host.chatUserNearBottom) {
     host.chatNewMessagesBelow = false;
   }

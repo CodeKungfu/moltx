@@ -54,7 +54,7 @@ import { loadUsage, loadSessionTimeSeries, loadSessionLogs } from "./controllers
 import { icons } from "./icons.ts";
 import { normalizeBasePath, TAB_GROUPS, subtitleForTab, titleForTab } from "./navigation.ts";
 
-// Module-scope debounce for usage date changes (avoids type-unsafe hacks on state object)
+// 用量日期更改的模块级去抖动（避免状态对象上的类型不安全 hack）
 let usageDateDebounceTimeout: number | null = null;
 const debouncedLoadUsage = (state: UsageState) => {
   if (usageDateDebounceTimeout) {
@@ -474,8 +474,8 @@ export function renderApp(state: AppViewState) {
                   ].slice(0, 8);
 
                   if (shiftKey && state.usageSelectedSessions.length > 0) {
-                    // Shift-click: select range from last selected to this session
-                    // Sort sessions same way as displayed (by tokens or cost descending)
+                    // Shift-click：选择从上次选中到此会话的范围
+                    // 按显示的相同方式排序会话（按令牌或成本降序）
                     const isTokenMode = state.usageChartMode === "tokens";
                     const sortedSessions = [...(state.usageResult?.sessions ?? [])].toSorted(
                       (a, b) => {
@@ -501,8 +501,8 @@ export function renderApp(state: AppViewState) {
                       state.usageSelectedSessions = newSelection;
                     }
                   } else {
-                    // Regular click: focus a single session (so details always open).
-                    // Click the focused session again to clear selection.
+                    // 常规点击：聚焦单个会话（以便详情始终打开）。
+                    // 再次点击聚焦的会话以清除选择。
                     if (
                       state.usageSelectedSessions.length === 1 &&
                       state.usageSelectedSessions[0] === key
@@ -513,7 +513,7 @@ export function renderApp(state: AppViewState) {
                     }
                   }
 
-                  // Load timeseries/logs only if exactly one session selected
+                  // 仅当选中且仅选中一个会话时加载时间序列/日志
                   if (state.usageSelectedSessions.length === 1) {
                     void loadSessionTimeSeries(state, state.usageSelectedSessions[0]);
                     void loadSessionLogs(state, state.usageSelectedSessions[0]);
@@ -521,7 +521,7 @@ export function renderApp(state: AppViewState) {
                 },
                 onSelectDay: (day, shiftKey) => {
                   if (shiftKey && state.usageSelectedDays.length > 0) {
-                    // Shift-click: select range from last selected to this day
+                    // Shift-click：选择从上次选中到今天的范围
                     const allDays = (state.usageCostSummary?.daily ?? []).map((d) => d.date);
                     const lastSelected =
                       state.usageSelectedDays[state.usageSelectedDays.length - 1];
@@ -531,12 +531,12 @@ export function renderApp(state: AppViewState) {
                       const [start, end] =
                         lastIdx < thisIdx ? [lastIdx, thisIdx] : [thisIdx, lastIdx];
                       const range = allDays.slice(start, end + 1);
-                      // Merge with existing selection
+                      // 合并现有选择
                       const newSelection = [...new Set([...state.usageSelectedDays, ...range])];
                       state.usageSelectedDays = newSelection;
                     }
                   } else {
-                    // Regular click: toggle single day
+                    // 常规点击：切换单日
                     if (state.usageSelectedDays.includes(day)) {
                       state.usageSelectedDays = state.usageSelectedDays.filter((d) => d !== day);
                     } else {

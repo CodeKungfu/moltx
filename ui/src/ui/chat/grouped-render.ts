@@ -30,19 +30,19 @@ function extractImages(message: unknown): ImageBlock[] {
       const b = block as Record<string, unknown>;
 
       if (b.type === "image") {
-        // Handle source object format (from sendChatMessage)
+        // 处理源对象格式 (来自 sendChatMessage)
         const source = b.source as Record<string, unknown> | undefined;
         if (source?.type === "base64" && typeof source.data === "string") {
           const data = source.data;
           const mediaType = (source.media_type as string) || "image/png";
-          // If data is already a data URL, use it directly
+          // 如果数据已经是 data URL，直接使用
           const url = data.startsWith("data:") ? data : `data:${mediaType};base64,${data}`;
           images.push({ url });
         } else if (typeof b.url === "string") {
           images.push({ url: b.url });
         }
       } else if (b.type === "image_url") {
-        // OpenAI format
+        // OpenAI 格式
         const imageUrl = b.image_url as Record<string, unknown> | undefined;
         if (typeof imageUrl?.url === "string") {
           images.push({ url: imageUrl.url });

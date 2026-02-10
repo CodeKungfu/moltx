@@ -1,30 +1,30 @@
 /**
- * Helper functions for tool card rendering.
+ * 工具卡片渲染的辅助函数。
  */
 
 import { PREVIEW_MAX_CHARS, PREVIEW_MAX_LINES } from "./constants.ts";
 
 /**
- * Format tool output content for display in the sidebar.
- * Detects JSON and wraps it in a code block with formatting.
+ * 格式化工具输出内容以在侧边栏显示。
+ * 检测 JSON 并将其包装在带有格式的代码块中。
  */
 export function formatToolOutputForSidebar(text: string): string {
   const trimmed = text.trim();
-  // Try to detect and format JSON
+  // 尝试检测并格式化 JSON
   if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
     try {
       const parsed = JSON.parse(trimmed);
       return "```json\n" + JSON.stringify(parsed, null, 2) + "\n```";
     } catch {
-      // Not valid JSON, return as-is
+      // 不是有效的 JSON，按原样返回
     }
   }
   return text;
 }
 
 /**
- * Get a truncated preview of tool output text.
- * Truncates to first N lines or first N characters, whichever is shorter.
+ * 获取工具输出文本的截断预览。
+ * 截断为前 N 行或前 N 个字符，以较短者为准。
  */
 export function getTruncatedPreview(text: string): string {
   const allLines = text.split("\n");

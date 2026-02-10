@@ -13,7 +13,7 @@ function mountApp(pathname: string) {
 
 beforeEach(() => {
   OpenClawApp.prototype.connect = () => {
-    // no-op: avoid real gateway WS connections in browser tests
+    // 无操作：避免浏览器测试中的真实网关 WS 连接
   };
   window.__OPENCLAW_CONTROL_UI_BASE_PATH__ = undefined;
   localStorage.clear();

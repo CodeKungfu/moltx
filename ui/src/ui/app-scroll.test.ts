@@ -2,10 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { handleChatScroll, scheduleChatScroll, resetChatScroll } from "./app-scroll.ts";
 
 /* ------------------------------------------------------------------ */
-/*  Helpers                                                            */
+/*  辅助函数                                                            */
 /* ------------------------------------------------------------------ */
 
-/** Minimal ScrollHost stub for unit tests. */
+/** 单元测试的最小 ScrollHost 存根。 */
 function createScrollHost(
   overrides: {
     scrollHeight?: number;
@@ -28,7 +28,7 @@ function createScrollHost(
     style: { overflowY } as unknown as CSSStyleDeclaration,
   };
 
-  // Make getComputedStyle return the overflowY value
+  // 使 getComputedStyle 返回 overflowY 值
   vi.spyOn(window, "getComputedStyle").mockReturnValue({
     overflowY,
   } as unknown as CSSStyleDeclaration);
@@ -57,13 +57,13 @@ function createScrollEvent(scrollHeight: number, scrollTop: number, clientHeight
 }
 
 /* ------------------------------------------------------------------ */
-/*  handleChatScroll – threshold tests                                 */
+/*  handleChatScroll – 阈值测试                                         */
 /* ------------------------------------------------------------------ */
 
 describe("handleChatScroll", () => {
   it("sets chatUserNearBottom=true when within the 450px threshold", () => {
     const { host } = createScrollHost({});
-    // distanceFromBottom = 2000 - 1600 - 400 = 0 → clearly near bottom
+    // 距底部距离 = 2000 - 1600 - 400 = 0 → 显然接近底部
     const event = createScrollEvent(2000, 1600, 400);
     handleChatScroll(host, event);
     expect(host.chatUserNearBottom).toBe(true);
@@ -71,7 +71,7 @@ describe("handleChatScroll", () => {
 
   it("sets chatUserNearBottom=true when distance is just under threshold", () => {
     const { host } = createScrollHost({});
-    // distanceFromBottom = 2000 - 1151 - 400 = 449 → just under threshold
+    // 距底部距离 = 2000 - 1151 - 400 = 449 → 刚好低于阈值
     const event = createScrollEvent(2000, 1151, 400);
     handleChatScroll(host, event);
     expect(host.chatUserNearBottom).toBe(true);
@@ -79,7 +79,7 @@ describe("handleChatScroll", () => {
 
   it("sets chatUserNearBottom=false when distance is exactly at threshold", () => {
     const { host } = createScrollHost({});
-    // distanceFromBottom = 2000 - 1150 - 400 = 450 → at threshold (uses strict <)
+    // 距底部距离 = 2000 - 1150 - 400 = 450 → 处于阈值（使用严格 <）
     const event = createScrollEvent(2000, 1150, 400);
     handleChatScroll(host, event);
     expect(host.chatUserNearBottom).toBe(false);
@@ -87,7 +87,7 @@ describe("handleChatScroll", () => {
 
   it("sets chatUserNearBottom=false when scrolled well above threshold", () => {
     const { host } = createScrollHost({});
-    // distanceFromBottom = 2000 - 500 - 400 = 1100 → way above threshold
+    // 距底部距离 = 2000 - 500 - 400 = 1100 → 远高于阈值
     const event = createScrollEvent(2000, 500, 400);
     handleChatScroll(host, event);
     expect(host.chatUserNearBottom).toBe(false);
@@ -95,8 +95,8 @@ describe("handleChatScroll", () => {
 
   it("sets chatUserNearBottom=false when user scrolled up past one long message (>200px <450px)", () => {
     const { host } = createScrollHost({});
-    // distanceFromBottom = 2000 - 1250 - 400 = 350 → old threshold would say "near", new says "near"
-    // distanceFromBottom = 2000 - 1100 - 400 = 500 → old threshold would say "not near", new also "not near"
+    // 距底部距离 = 2000 - 1250 - 400 = 350 → 旧阈值会说“近”，新阈值说“近”
+    // 距底部距离 = 2000 - 1100 - 400 = 500 → 旧阈值会说“不近”，新阈值也说“不近”
     const event = createScrollEvent(2000, 1100, 400);
     handleChatScroll(host, event);
     expect(host.chatUserNearBottom).toBe(false);
@@ -104,7 +104,7 @@ describe("handleChatScroll", () => {
 });
 
 /* ------------------------------------------------------------------ */
-/*  scheduleChatScroll – respects user scroll position                 */
+/*  scheduleChatScroll – 尊重用户滚动位置                               */
 /* ------------------------------------------------------------------ */
 
 describe("scheduleChatScroll", () => {
@@ -127,7 +127,7 @@ describe("scheduleChatScroll", () => {
       scrollTop: 1600,
       clientHeight: 400,
     });
-    // distanceFromBottom = 2000 - 1600 - 400 = 0 → near bottom
+    // 距底部距离 = 2000 - 1600 - 400 = 0 → 接近底部
     host.chatUserNearBottom = true;
 
     scheduleChatScroll(host);
@@ -142,7 +142,7 @@ describe("scheduleChatScroll", () => {
       scrollTop: 500,
       clientHeight: 400,
     });
-    // distanceFromBottom = 2000 - 500 - 400 = 1100 → not near bottom
+    // 距底部距离 = 2000 - 500 - 400 = 1100 → 不接近底部
     host.chatUserNearBottom = false;
     const originalScrollTop = container.scrollTop;
 
@@ -158,15 +158,15 @@ describe("scheduleChatScroll", () => {
       scrollTop: 500,
       clientHeight: 400,
     });
-    // User has scrolled up — chatUserNearBottom is false
+    // 用户已向上滚动 — chatUserNearBottom 为 false
     host.chatUserNearBottom = false;
-    host.chatHasAutoScrolled = true; // Already past initial load
+    host.chatHasAutoScrolled = true; // 已过初始加载
     const originalScrollTop = container.scrollTop;
 
     scheduleChatScroll(host, true);
     await host.updateComplete;
 
-    // force=true should still NOT override explicit user scroll-up after initial load
+    // force=true 在初始加载后仍不应覆盖显式用户向上滚动
     expect(container.scrollTop).toBe(originalScrollTop);
   });
 
@@ -177,12 +177,12 @@ describe("scheduleChatScroll", () => {
       clientHeight: 400,
     });
     host.chatUserNearBottom = false;
-    host.chatHasAutoScrolled = false; // Initial load
+    host.chatHasAutoScrolled = false; // 初始加载
 
     scheduleChatScroll(host, true);
     await host.updateComplete;
 
-    // On initial load, force should work regardless
+    // 在初始加载时，force 应无论如何都起作用
     expect(container.scrollTop).toBe(container.scrollHeight);
   });
 
@@ -204,7 +204,7 @@ describe("scheduleChatScroll", () => {
 });
 
 /* ------------------------------------------------------------------ */
-/*  Streaming: rapid chatStream changes should not reset scroll        */
+/*  流式传输：快速 chatStream 更改不应重置滚动                           */
 /* ------------------------------------------------------------------ */
 
 describe("streaming scroll behavior", () => {
@@ -231,7 +231,7 @@ describe("streaming scroll behavior", () => {
     host.chatHasAutoScrolled = true;
     const originalScrollTop = container.scrollTop;
 
-    // Simulate rapid streaming token updates
+    // 模拟快速流式令牌更新
     scheduleChatScroll(host);
     scheduleChatScroll(host);
     scheduleChatScroll(host);
@@ -249,7 +249,7 @@ describe("streaming scroll behavior", () => {
     host.chatUserNearBottom = true;
     host.chatHasAutoScrolled = true;
 
-    // Simulate streaming
+    // 模拟流式传输
     scheduleChatScroll(host);
     await host.updateComplete;
 
