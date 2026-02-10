@@ -158,64 +158,64 @@ export function iconForTab(tab: Tab): IconName {
 export function titleForTab(tab: Tab) {
   switch (tab) {
     case "agents":
-      return "Agents";
+      return "智能体";
     case "overview":
-      return "Overview";
+      return "概览";
     case "channels":
-      return "Channels";
+      return "渠道";
     case "instances":
-      return "Instances";
+      return "实例";
     case "sessions":
-      return "Sessions";
+      return "会话";
     case "usage":
-      return "Usage";
+      return "用量";
     case "cron":
-      return "Cron Jobs";
+      return "定时任务";
     case "skills":
-      return "Skills";
+      return "技能";
     case "nodes":
-      return "Nodes";
+      return "节点";
     case "chat":
-      return "Chat";
+      return "对话";
     case "config":
-      return "Config";
+      return "配置";
     case "debug":
-      return "Debug";
+      return "调试";
     case "logs":
-      return "Logs";
+      return "日志";
     default:
-      return "Control";
+      return "控制台";
   }
 }
 
 export function subtitleForTab(tab: Tab) {
   switch (tab) {
     case "agents":
-      return "Manage agent workspaces, tools, and identities.";
+      return "管理智能体工作区、工具和身份。";
     case "overview":
-      return "Gateway status, entry points, and a fast health read.";
+      return "网关状态、入口点和快速健康检查。";
     case "channels":
-      return "Manage channels and settings.";
+      return "管理渠道和设置。";
     case "instances":
-      return "Presence beacons from connected clients and nodes.";
+      return "来自已连接客户端和节点的在线信号。";
     case "sessions":
-      return "Inspect active sessions and adjust per-session defaults.";
+      return "查看活跃会话并调整每会话默认设置。";
     case "usage":
       return "";
     case "cron":
-      return "Schedule wakeups and recurring agent runs.";
+      return "调度唤醒和定期智能体运行。";
     case "skills":
-      return "Manage skill availability and API key injection.";
+      return "管理技能可用性和 API 密钥注入。";
     case "nodes":
-      return "Paired devices, capabilities, and command exposure.";
+      return "已配对设备、能力和命令暴露。";
     case "chat":
-      return "Direct gateway chat session for quick interventions.";
+      return "用于快速干预的直接网关对话会话。";
     case "config":
-      return "Edit ~/.openclaw/openclaw.json safely.";
+      return "安全编辑 ~/.openclaw/openclaw.json。";
     case "debug":
-      return "Gateway snapshots, events, and manual RPC calls.";
+      return "网关快照、事件和手动 RPC 调用。";
     case "logs":
-      return "Live tail of the gateway file logs.";
+      return "网关文件日志的实时尾部。";
     default:
       return "";
   }

@@ -70,10 +70,10 @@ export function renderChannels(props: ChannelsProps) {
     <section class="card" style="margin-top: 18px;">
       <div class="row" style="justify-content: space-between;">
         <div>
-          <div class="card-title">Channel health</div>
-          <div class="card-sub">Channel status snapshots from the gateway.</div>
+          <div class="card-title">渠道健康状况</div>
+          <div class="card-sub">网关的渠道状态快照。</div>
         </div>
-        <div class="muted">${props.lastSuccessAt ? formatRelativeTimestamp(props.lastSuccessAt) : "n/a"}</div>
+        <div class="muted">${props.lastSuccessAt ? formatRelativeTimestamp(props.lastSuccessAt) : "不可用"}</div>
       </div>
       ${
         props.lastError
@@ -83,7 +83,7 @@ export function renderChannels(props: ChannelsProps) {
           : nothing
       }
       <pre class="code-block" style="margin-top: 12px;">
-${props.snapshot ? JSON.stringify(props.snapshot, null, 2) : "No snapshot yet."}
+${props.snapshot ? JSON.stringify(props.snapshot, null, 2) : "暂无快照。"}
       </pre>
     </section>
   `;
@@ -194,7 +194,7 @@ function renderGenericChannelCard(
   return html`
     <div class="card">
       <div class="card-title">${label}</div>
-      <div class="card-sub">Channel status and configuration.</div>
+      <div class="card-sub">渠道状态和配置。</div>
       ${accountCountLabel}
 
       ${
@@ -207,16 +207,16 @@ function renderGenericChannelCard(
           : html`
             <div class="status-list" style="margin-top: 16px;">
               <div>
-                <span class="label">Configured</span>
-                <span>${configured == null ? "n/a" : configured ? "Yes" : "No"}</span>
+                <span class="label">已配置</span>
+                <span>${configured == null ? "不可用" : configured ? "是" : "否"}</span>
               </div>
               <div>
-                <span class="label">Running</span>
-                <span>${running == null ? "n/a" : running ? "Yes" : "No"}</span>
+                <span class="label">运行中</span>
+                <span>${running == null ? "不可用" : running ? "是" : "否"}</span>
               </div>
               <div>
-                <span class="label">Connected</span>
-                <span>${connected == null ? "n/a" : connected ? "Yes" : "No"}</span>
+                <span class="label">已连接</span>
+                <span>${connected == null ? "不可用" : connected ? "是" : "否"}</span>
               </div>
             </div>
           `
@@ -258,29 +258,29 @@ function hasRecentActivity(account: ChannelAccountSnapshot): boolean {
   return Date.now() - account.lastInboundAt < RECENT_ACTIVITY_THRESHOLD_MS;
 }
 
-function deriveRunningStatus(account: ChannelAccountSnapshot): "Yes" | "No" | "Active" {
+function deriveRunningStatus(account: ChannelAccountSnapshot): "是" | "否" | "活跃" {
   if (account.running) {
-    return "Yes";
+    return "是";
   }
   // If we have recent inbound activity, the channel is effectively running
   if (hasRecentActivity(account)) {
-    return "Active";
+    return "活跃";
   }
-  return "No";
+  return "否";
 }
 
-function deriveConnectedStatus(account: ChannelAccountSnapshot): "Yes" | "No" | "Active" | "n/a" {
+function deriveConnectedStatus(account: ChannelAccountSnapshot): "是" | "否" | "活跃" | "不可用" {
   if (account.connected === true) {
-    return "Yes";
+    return "是";
   }
   if (account.connected === false) {
-    return "No";
+    return "否";
   }
   // If connected is null/undefined but we have recent activity, show as active
   if (hasRecentActivity(account)) {
-    return "Active";
+    return "活跃";
   }
-  return "n/a";
+  return "不可用";
 }
 
 function renderGenericAccount(account: ChannelAccountSnapshot) {
@@ -295,20 +295,20 @@ function renderGenericAccount(account: ChannelAccountSnapshot) {
       </div>
       <div class="status-list account-card-status">
         <div>
-          <span class="label">Running</span>
+          <span class="label">运行中</span>
           <span>${runningStatus}</span>
         </div>
         <div>
-          <span class="label">Configured</span>
-          <span>${account.configured ? "Yes" : "No"}</span>
+          <span class="label">已配置</span>
+          <span>${account.configured ? "是" : "否"}</span>
         </div>
         <div>
-          <span class="label">Connected</span>
+          <span class="label">已连接</span>
           <span>${connectedStatus}</span>
         </div>
         <div>
-          <span class="label">Last inbound</span>
-          <span>${account.lastInboundAt ? formatRelativeTimestamp(account.lastInboundAt) : "n/a"}</span>
+          <span class="label">最后接收</span>
+          <span>${account.lastInboundAt ? formatRelativeTimestamp(account.lastInboundAt) : "不可用"}</span>
         </div>
         ${
           account.lastError

@@ -38,12 +38,12 @@ export async function loadUsage(
     const startDate = overrides?.startDate ?? state.usageStartDate;
     const endDate = overrides?.endDate ?? state.usageEndDate;
 
-    // Load both endpoints in parallel
+    // 并行加载两个端点
     const [sessionsRes, costRes] = await Promise.all([
       state.client.request("sessions.usage", {
         startDate,
         endDate,
-        limit: 1000, // Cap at 1000 sessions
+        limit: 1000, // 上限为 1000 个会话
         includeContextWeight: true,
       }),
       state.client.request("usage.cost", { startDate, endDate }),

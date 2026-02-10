@@ -144,7 +144,7 @@ export function renderChatControls(state: AppViewState) {
             });
           }
         }}
-        title="Refresh chat data"
+        title="刷新聊天数据"
       >
         ${refreshIcon}
       </button>
@@ -162,11 +162,7 @@ export function renderChatControls(state: AppViewState) {
           });
         }}
         aria-pressed=${showThinking}
-        title=${
-          disableThinkingToggle
-            ? "Disabled during onboarding"
-            : "Toggle assistant thinking/working output"
-        }
+        title=${disableThinkingToggle ? "新手引导期间禁用" : "切换助手思考/工作输出"}
       >
         ${icons.brain}
       </button>
@@ -183,11 +179,7 @@ export function renderChatControls(state: AppViewState) {
           });
         }}
         aria-pressed=${focusActive}
-        title=${
-          disableFocusToggle
-            ? "Disabled during onboarding"
-            : "Toggle focus mode (hide sidebar + page header)"
-        }
+        title=${disableFocusToggle ? "新手引导期间禁用" : "切换专注模式 (隐藏侧边栏 + 页面头部)"}
       >
         ${focusIcon}
       </button>
@@ -298,8 +290,8 @@ export function renderThemeToggle(state: AppViewState) {
           class="theme-toggle__button ${state.theme === "system" ? "active" : ""}"
           @click=${applyTheme("system")}
           aria-pressed=${state.theme === "system"}
-          aria-label="System theme"
-          title="System"
+          aria-label="系统主题"
+          title="系统"
         >
           ${renderMonitorIcon()}
         </button>
@@ -307,8 +299,8 @@ export function renderThemeToggle(state: AppViewState) {
           class="theme-toggle__button ${state.theme === "light" ? "active" : ""}"
           @click=${applyTheme("light")}
           aria-pressed=${state.theme === "light"}
-          aria-label="Light theme"
-          title="Light"
+          aria-label="浅色主题"
+          title="浅色"
         >
           ${renderSunIcon()}
         </button>
@@ -316,8 +308,8 @@ export function renderThemeToggle(state: AppViewState) {
           class="theme-toggle__button ${state.theme === "dark" ? "active" : ""}"
           @click=${applyTheme("dark")}
           aria-pressed=${state.theme === "dark"}
-          aria-label="Dark theme"
-          title="Dark"
+          aria-label="深色主题"
+          title="深色"
         >
           ${renderMoonIcon()}
         </button>
